@@ -4,8 +4,8 @@
 // =====================================================
 
 const fondosHero = [
-    "imagen/fotofondo1.jpg",
-    "imagen/fotofondo2.jpg"
+    "imagen/fotofondo1.webp",
+    "imagen/fotofondo2.webp"
 ];
 
 let fondoActual = 0;
