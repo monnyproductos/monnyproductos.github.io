@@ -15,47 +15,26 @@ const hero = document.querySelector(".hero");
 
 if (hero && fondosHero.length === 2) {
 
-    // =================================================
-    // CREAR LAS DOS CAPAS DEL FONDO
-    // =================================================
-
     const fondo1 = document.createElement("div");
     const fondo2 = document.createElement("div");
 
     fondo1.className = "hero-background";
     fondo2.className = "hero-background";
 
-    // =================================================
-    // INSERTAR LAS CAPAS AL PRINCIPIO DEL HERO
-    // =================================================
-
     hero.insertBefore(fondo1, hero.firstChild);
     hero.insertBefore(fondo2, fondo1);
-
-    // =================================================
-    // CARGAR PRIMERA FOTOGRAFÍA
-    // =================================================
 
     fondo1.style.backgroundImage =
         `url("${fondosHero[0]}")`;
 
     fondo1.classList.add("active");
 
-    // =================================================
-    // PRECARGAR FOTOGRAFÍAS
-    // =================================================
-
     fondosHero.forEach((ruta) => {
 
         const imagen = new Image();
-
         imagen.src = ruta;
 
     });
-
-    // =================================================
-    // CAMBIAR FONDO CADA 5 SEGUNDOS
-    // =================================================
 
     setInterval(() => {
 
@@ -65,34 +44,22 @@ if (hero && fondosHero.length === 2) {
             fondoActual = 0;
         }
 
-        // =================================================
-        // CAMBIAR A LA SEGUNDA CAPA
-        // =================================================
-
         if (capaActual === 1) {
 
             fondo2.style.backgroundImage =
                 `url("${fondosHero[fondoActual]}")`;
 
             fondo2.classList.add("active");
-
             fondo1.classList.remove("active");
 
             capaActual = 2;
 
-        }
-
-        // =================================================
-        // CAMBIAR A LA PRIMERA CAPA
-        // =================================================
-
-        else {
+        } else {
 
             fondo1.style.backgroundImage =
                 `url("${fondosHero[fondoActual]}")`;
 
             fondo1.classList.add("active");
-
             fondo2.classList.remove("active");
 
             capaActual = 1;
@@ -261,18 +228,12 @@ function abrirCarrito() {
         return;
     }
 
-    // No abrir si no hay productos
     if (carrito.length === 0) {
         return;
     }
 
-    cartPanel.classList.add(
-        "cart-open"
-    );
-
-    cartOverlay.classList.add(
-        "overlay-visible"
-    );
+    cartPanel.classList.add("cart-open");
+    cartOverlay.classList.add("overlay-visible");
 
     if (cartToggle) {
 
@@ -305,13 +266,8 @@ function cerrarCarrito() {
         return;
     }
 
-    cartPanel.classList.remove(
-        "cart-open"
-    );
-
-    cartOverlay.classList.remove(
-        "overlay-visible"
-    );
+    cartPanel.classList.remove("cart-open");
+    cartOverlay.classList.remove("overlay-visible");
 
     if (cartToggle) {
 
@@ -534,10 +490,6 @@ function agregarAlCarrito(id) {
             (item) => item.id === id
         );
 
-    // =================================================
-    // PRODUCTO YA EXISTENTE
-    // =================================================
-
     if (existente) {
 
         const nuevaCantidad =
@@ -559,13 +511,7 @@ function agregarAlCarrito(id) {
         existente.cantidad =
             nuevaCantidad;
 
-    }
-
-    // =================================================
-    // PRODUCTO NUEVO
-    // =================================================
-
-    else {
+    } else {
 
         carrito.push({
 
@@ -587,7 +533,6 @@ function agregarAlCarrito(id) {
 
     actualizarCarritoUI();
 
-    // Reiniciar selector
     cantidadElement.innerText =
         "1";
 
@@ -610,11 +555,6 @@ function actualizarCarritoUI() {
     const total =
         calcularTotalCarrito();
 
-
-    // =================================================
-    // MOSTRAR / OCULTAR BOTÓN DEL CARRITO
-    // =================================================
-
     if (cartToggle) {
 
         if (carrito.length > 0) {
@@ -629,19 +569,11 @@ function actualizarCarritoUI() {
                 "cart-visible"
             );
 
-            // Si el carrito queda vacío,
-            // aseguramos que permanezca cerrado.
-
             cerrarCarrito();
 
         }
 
     }
-
-
-    // =================================================
-    // BADGE
-    // =================================================
 
     if (cartBadge) {
 
@@ -649,11 +581,6 @@ function actualizarCarritoUI() {
             cantidadTotal;
 
     }
-
-
-    // =================================================
-    // CANTIDAD DE PRODUCTOS
-    // =================================================
 
     if (cartItemsCount) {
 
@@ -664,22 +591,12 @@ function actualizarCarritoUI() {
 
     }
 
-
-    // =================================================
-    // TOTAL
-    // =================================================
-
     if (grandTotal) {
 
         grandTotal.innerText =
             formatoPrecio(total);
 
     }
-
-
-    // =================================================
-    // CARRITO VACÍO
-    // =================================================
 
     if (carrito.length === 0) {
 
@@ -712,9 +629,7 @@ function actualizarCarritoUI() {
         `;
 
         if (btnPay) {
-
             btnPay.disabled = true;
-
         }
 
         agregarEventoContinuar();
@@ -722,11 +637,6 @@ function actualizarCarritoUI() {
         return;
 
     }
-
-
-    // =================================================
-    // CARRITO CON PRODUCTOS
-    // =================================================
 
     cartItems.innerHTML = "";
 
@@ -803,11 +713,8 @@ function actualizarCarritoUI() {
 
     });
 
-
     if (btnPay) {
-
         btnPay.disabled = false;
-
     }
 
 }
@@ -837,10 +744,6 @@ function modificarCantidadCarrito(id, cambio) {
         item.cantidad +
         cambio;
 
-    // =================================================
-    // SI LLEGA A CERO, ELIMINAR
-    // =================================================
-
     if (nuevaCantidad <= 0) {
 
         eliminarDelCarrito(id);
@@ -848,10 +751,6 @@ function modificarCantidadCarrito(id, cambio) {
         return;
 
     }
-
-    // =================================================
-    // COMPROBAR STOCK
-    // =================================================
 
     if (
         nuevaCantidad >
@@ -1233,7 +1132,6 @@ function generarMensajeWhatsApp(
 
         ` *DETALLE DEL PEDIDO*\n\n`;
 
-
     pedidoCompleto.items.forEach(
         (item) => {
 
@@ -1246,10 +1144,8 @@ function generarMensajeWhatsApp(
         }
     );
 
-
     mensaje +=
         ` *TOTAL: ${formatoPrecio(pedidoCompleto.total)}*`;
-
 
     return mensaje;
 
@@ -1265,22 +1161,18 @@ const telefonoInput =
         "telefono"
     );
 
-
 if (telefonoInput) {
 
     telefonoInput.addEventListener(
         "input",
         () => {
 
-            // Obtener solamente números
             let numeros =
                 telefonoInput.value.replace(
                     /\D/g,
                     ""
                 );
 
-            // Si comienza con 56,
-            // quitar código de país
             if (
                 numeros.startsWith("56")
             ) {
@@ -1290,11 +1182,9 @@ if (telefonoInput) {
 
             }
 
-            // Máximo 9 dígitos
             numeros =
                 numeros.substring(0, 9);
 
-            // Formatear
             let telefonoFormateado =
                 "";
 
@@ -1353,7 +1243,6 @@ const customerForm =
         "customer-form"
     );
 
-
 if (customerForm) {
 
     customerForm.addEventListener(
@@ -1361,7 +1250,6 @@ if (customerForm) {
         (event) => {
 
             event.preventDefault();
-
 
             if (
                 carrito.length === 0
@@ -1382,53 +1270,41 @@ if (customerForm) {
 
             }
 
-
             const nombreElement =
                 document.getElementById(
                     "nombre"
                 );
-
 
             const lugarElement =
                 document.getElementById(
                     "lugar"
                 );
 
-
             const telefonoElement =
                 document.getElementById(
                     "telefono"
                 );
-
 
             const nombre =
                 nombreElement
                     ? nombreElement.value.trim()
                     : "";
 
-
             const lugar =
                 lugarElement
                     ? lugarElement.value.trim()
                     : "";
-
 
             const telefono =
                 telefonoElement
                     ? telefonoElement.value.trim()
                     : "";
 
-
-            // =================================================
-            // VALIDAR TELÉFONO CHILENO
-            // =================================================
-
             const telefonoNumeros =
                 telefono.replace(
                     /\D/g,
                     ""
                 );
-
 
             if (
                 !/^569\d{8}$/.test(
@@ -1448,11 +1324,6 @@ if (customerForm) {
                 return;
 
             }
-
-
-            // =================================================
-            // CREAR PEDIDO
-            // =================================================
 
             const pedidoCompleto = {
 
@@ -1501,43 +1372,25 @@ if (customerForm) {
 
             };
 
-
             console.log(
                 "Pedido:",
                 pedidoCompleto
             );
-
-
-            // =================================================
-            // ENVIAR PEDIDO POR WHATSAPP
-            // =================================================
 
             const mensaje =
                 generarMensajeWhatsApp(
                     pedidoCompleto
                 );
 
-
             const urlWhatsApp =
                 `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
-
 
             window.open(
                 urlWhatsApp,
                 "_blank"
             );
 
-
-            // =================================================
-            // VACIAR CARRITO
-            // =================================================
-
             carrito = [];
-
-
-            // =================================================
-            // CERRAR MODAL
-            // =================================================
 
             if (modal) {
 
@@ -1546,23 +1399,12 @@ if (customerForm) {
 
             }
 
-
-            // =================================================
-            // LIMPIAR FORMULARIO
-            // =================================================
-
             customerForm.reset();
-
-
-            // =================================================
-            // LIMPIAR RESUMEN
-            // =================================================
 
             const summary =
                 document.getElementById(
                     "order-summary-final"
                 );
-
 
             if (summary) {
 
@@ -1570,11 +1412,6 @@ if (customerForm) {
                     "";
 
             }
-
-
-            // =================================================
-            // ACTUALIZAR CARRITO
-            // =================================================
 
             actualizarCarritoUI();
 
@@ -1614,22 +1451,15 @@ const heroContent =
         ".hero-content"
     );
 
-
 if (
     heroBrand &&
     heroContent
 ) {
 
-    // Guardar el texto
     heroBrand.setAttribute(
         "data-text",
         heroBrand.textContent.trim()
     );
-
-
-    // =================================================
-    // MOVIMIENTO SUAVE DE LA LUZ
-    // =================================================
 
     document.addEventListener(
         "mousemove",
@@ -1647,7 +1477,6 @@ if (
                     window.innerHeight
                 ) * 100;
 
-
             heroContent.style.setProperty(
                 "--mouse-x",
                 `${x}%`
@@ -1662,75 +1491,83 @@ if (
     );
 
 }
-/* =============================================
-   ANIMACIONES AL HACER SCROLL
-============================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
 
-    const elementos = document.querySelectorAll(".reveal");
+// =====================================================
+// ANIMACIONES AL HACER SCROLL
+// =====================================================
 
-    const observer = new IntersectionObserver(
-        (entradas) => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-            entradas.forEach((entrada) => {
+        const elementos =
+            document.querySelectorAll(
+                ".reveal"
+            );
 
-                if (entrada.isIntersecting) {
+        const observer =
+            new IntersectionObserver(
+                (entradas) => {
 
-                    // Aparece cuando entra en pantalla
-                    entrada.target.classList.add("visible");
+                    entradas.forEach(
+                        (entrada) => {
 
-                } else {
+                            if (
+                                entrada.isIntersecting
+                            ) {
 
-                    // Se oculta cuando sale de pantalla
-                    entrada.target.classList.remove("visible");
+                                entrada.target.classList.add(
+                                    "visible"
+                                );
 
+                            } else {
+
+                                entrada.target.classList.remove(
+                                    "visible"
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.15
                 }
+            );
 
-            });
+        elementos.forEach(
+            (elemento) => {
 
-        },
-        {
-            threshold: 0.15
-        }
-    );
+                observer.observe(
+                    elemento
+                );
 
-    elementos.forEach((elemento) => {
-        observer.observe(elemento);
-    });
+            }
+        );
 
-});
-//galeria
-/* =====================================================
-   GALERÍA
-===================================================== */
+    }
+);
+
 
 // =====================================================
 // GALERÍA HORIZONTAL
-// DESLIZAMIENTO MANUAL + MOVIMIENTO AUTOMÁTICO
+// MOVIMIENTO AUTOMÁTICO + ARRASTRE MANUAL
+// + INTERSECTIONOBSERVER
 // =====================================================
 
-const gallery = document.getElementById("gallery");
+const gallery =
+    document.getElementById("gallery");
 
 
 // =====================================================
 // IMÁGENES DE LA GALERÍA
 // =====================================================
-//
-// IMPORTANTE:
-// Agrega aquí todas las fotografías que tengas dentro
-// de la carpeta /imagen/.
-//
-// Ejemplo:
-// "imagen/galeria9.jpeg"
-// "imagen/galeria10.jpeg"
-//
-// El navegador no puede detectar automáticamente
-// los archivos nuevos de una carpeta.
-//
-// =====================================================
 
 const galleryImages = [
+
     "imagen/galeria1.webp",
     "imagen/galeria2.webp",
     "imagen/galeria3.webp",
@@ -1740,9 +1577,6 @@ const galleryImages = [
     "imagen/galeria7.webp",
     "imagen/galeria8.webp"
 
-    // Agrega aquí las nuevas:
-    // "imagen/galeria9.jpeg",
-    // "imagen/galeria10.jpeg"
 ];
 
 
@@ -1750,10 +1584,13 @@ const galleryImages = [
 // CONFIGURACIÓN
 // =====================================================
 
-const GALLERY_AUTO_SPEED = 0.45;
+// Velocidad en píxeles por segundo.
+// Mantener un valor bajo produce un movimiento
+// continuo y elegante.
+const GALLERY_AUTO_SPEED = 27;
 
-// Tiempo que permanece pausado después
-// de una interacción manual.
+
+// Tiempo de espera después de una interacción manual.
 const GALLERY_RESUME_DELAY = 2500;
 
 
@@ -1765,7 +1602,7 @@ let galleryAnimationFrame = null;
 
 let galleryPaused = false;
 
-let galleryResumeTimeout = null;
+let galleryVisible = false;
 
 let galleryDragging = false;
 
@@ -1774,6 +1611,23 @@ let galleryStartX = 0;
 let galleryStartScrollLeft = 0;
 
 let galleryMoved = false;
+
+let galleryResumeTimeout = null;
+
+let galleryLastTimestamp = 0;
+
+let galleryObserver = null;
+
+
+// =====================================================
+// PREFERENCIA DE REDUCCIÓN DE MOVIMIENTO
+// =====================================================
+
+const galleryReducedMotion =
+    window.matchMedia &&
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
 
 
 // =====================================================
@@ -1787,19 +1641,20 @@ function crearGaleria() {
     }
 
     if (!galleryImages.length) {
+
         console.warn(
             "La galería no contiene imágenes."
         );
+
         return;
+
     }
 
-
-    // Limpiar galería
     gallery.innerHTML = "";
 
 
     // =================================================
-    // CREAR PRIMER GRUPO DE IMÁGENES
+    // PRIMER GRUPO
     // =================================================
 
     galleryImages.forEach(
@@ -1816,11 +1671,10 @@ function crearGaleria() {
 
 
     // =================================================
-    // DUPLICAR LAS IMÁGENES
+    // SEGUNDO GRUPO
     // =================================================
     //
-    // Esto permite crear un desplazamiento circular
-    // sin que el usuario vea un salto al llegar al final.
+    // Se duplica para crear el bucle infinito.
     //
 
     galleryImages.forEach(
@@ -1837,17 +1691,56 @@ function crearGaleria() {
 
 
     // =================================================
-    // INICIAR INTERACCIÓN MANUAL
+    // ESPERAR A QUE EL DOM CALCULE EL ANCHO
     // =================================================
 
-    configurarArrastreGaleria();
+    requestAnimationFrame(() => {
+
+        const mitad =
+            obtenerMitadGaleria();
+
+        if (mitad > 0) {
+
+            /*
+               Comenzamos en la segunda copia.
+
+               Esto permite desplazarnos hacia la derecha
+               visualmente y, al llegar al inicio, saltar
+               a la segunda copia sin que el usuario perciba
+               el cambio.
+            */
+            gallery.scrollLeft =
+                mitad;
+
+        }
+
+        configurarArrastreGaleria();
+
+        configurarObservadorGaleria();
+
+    });
+
+}
 
 
-    // =================================================
-    // INICIAR MOVIMIENTO AUTOMÁTICO
-    // =================================================
+// =====================================================
+// OBTENER MITAD REAL DE LA GALERÍA
+// =====================================================
 
-    iniciarMovimientoAutomatico();
+function obtenerMitadGaleria() {
+
+    if (!gallery) {
+        return 0;
+    }
+
+    /*
+       Como las dos mitades contienen exactamente
+       las mismas imágenes y espacios, la mitad
+       del scrollWidth corresponde al ancho de
+       una secuencia completa.
+    */
+
+    return gallery.scrollWidth / 2;
 
 }
 
@@ -1868,8 +1761,6 @@ function crearElementoGaleria(
     item.className =
         "gallery-item";
 
-
-    // Marcar los duplicados
     if (duplicado) {
 
         item.classList.add(
@@ -1877,7 +1768,6 @@ function crearElementoGaleria(
         );
 
     }
-
 
     item.innerHTML = `
 
@@ -1889,11 +1779,6 @@ function crearElementoGaleria(
         >
 
     `;
-
-
-    // =================================================
-    // DETECTAR IMÁGENES QUE NO EXISTEN
-    // =================================================
 
     const img =
         item.querySelector("img");
@@ -1918,33 +1803,25 @@ function crearElementoGaleria(
 
     }
 
-
     gallery.appendChild(item);
 
 
     // =================================================
     // CLICK
     // =================================================
-    //
-    // Solo se considera click si el usuario no arrastró.
-    //
 
     item.addEventListener(
         "click",
         () => {
 
-            // Si hubo desplazamiento,
-            // no ejecutar selección.
             if (galleryMoved) {
                 return;
             }
-
 
             const isActive =
                 item.classList.contains(
                     "active"
                 );
-
 
             gallery
                 .querySelectorAll(
@@ -1959,7 +1836,6 @@ function crearElementoGaleria(
 
                     }
                 );
-
 
             if (isActive) {
 
@@ -1986,7 +1862,90 @@ function crearElementoGaleria(
 
 
 // =====================================================
-// MOVIMIENTO AUTOMÁTICO
+// CONFIGURAR INTERSECTIONOBSERVER
+// =====================================================
+
+function configurarObservadorGaleria() {
+
+    if (
+        !gallery ||
+        galleryObserver
+    ) {
+        return;
+    }
+
+
+    /*
+       IntersectionObserver evita mantener
+       requestAnimationFrame ejecutándose
+       cuando la galería está fuera de pantalla.
+    */
+
+    galleryObserver =
+        new IntersectionObserver(
+            (entradas) => {
+
+                const entrada =
+                    entradas[0];
+
+                if (!entrada) {
+                    return;
+                }
+
+                galleryVisible =
+                    entrada.isIntersecting &&
+                    entrada.intersectionRatio > 0;
+
+
+                if (galleryVisible) {
+
+                    /*
+                       Reiniciamos el timestamp para
+                       evitar que el primer frame después
+                       de volver al viewport intente avanzar
+                       varios segundos de golpe.
+                    */
+
+                    galleryLastTimestamp =
+                        performance.now();
+
+
+                    iniciarMovimientoAutomatico();
+
+                } else {
+
+                    detenerMovimientoAutomatico();
+
+                }
+
+            },
+            {
+                /*
+                   Un pequeño margen permite preparar
+                   la animación justo antes de que el
+                   usuario llegue a la galería.
+                */
+                root: null,
+
+                rootMargin:
+                    "0px",
+
+                threshold:
+                    0.01
+
+            }
+        );
+
+
+    galleryObserver.observe(
+        gallery
+    );
+
+}
+
+
+// =====================================================
+// INICIAR MOVIMIENTO AUTOMÁTICO
 // =====================================================
 
 function iniciarMovimientoAutomatico() {
@@ -1996,76 +1955,200 @@ function iniciarMovimientoAutomatico() {
     }
 
 
-    // Evitar múltiples animaciones
+    /*
+       No ejecutar animación si el usuario
+       ha solicitado reducir movimiento.
+    */
+
+    if (galleryReducedMotion) {
+        return;
+    }
+
+
+    /*
+       Nunca iniciar el loop si la galería
+       no está visible.
+    */
+
+    if (!galleryVisible) {
+        return;
+    }
+
+
+    /*
+       No crear múltiples requestAnimationFrame.
+    */
+
     if (galleryAnimationFrame) {
-
-        cancelAnimationFrame(
-            galleryAnimationFrame
-        );
-
+        return;
     }
 
 
-    function mover() {
-
-        if (
-            !galleryPaused &&
-            !galleryDragging
-        ) {
-
-            gallery.scrollLeft +=
-                GALLERY_AUTO_SPEED;
-
-
-            // =================================================
-            // CREAR BUCLE INFINITO
-            // =================================================
-            //
-            // La segunda mitad es una copia de la primera.
-            // Cuando llegamos a ella volvemos al inicio
-            // sin que visualmente se note.
-            //
-
-            const mitad =
-                gallery.scrollWidth / 2;
-
-
-            if (
-                gallery.scrollLeft >=
-                mitad
-            ) {
-
-                gallery.scrollLeft -=
-                    mitad;
-
-            }
-
-        }
-
-
-        galleryAnimationFrame =
-            requestAnimationFrame(
-                mover
-            );
-
-    }
+    galleryLastTimestamp =
+        performance.now();
 
 
     galleryAnimationFrame =
         requestAnimationFrame(
-            mover
+            moverGaleria
         );
 
 }
 
 
 // =====================================================
-// PAUSAR AUTOMÁTICO
+// DETENER MOVIMIENTO AUTOMÁTICO
+// =====================================================
+
+function detenerMovimientoAutomatico() {
+
+    if (galleryAnimationFrame) {
+
+        cancelAnimationFrame(
+            galleryAnimationFrame
+        );
+
+        galleryAnimationFrame =
+            null;
+
+    }
+
+    galleryLastTimestamp =
+        0;
+
+}
+
+
+// =====================================================
+// MOVIMIENTO AUTOMÁTICO
+// =====================================================
+
+function moverGaleria(timestamp) {
+
+    /*
+       Si dejó de ser visible, detener completamente
+       el loop.
+    */
+
+    if (
+        !gallery ||
+        !galleryVisible
+    ) {
+
+        detenerMovimientoAutomatico();
+
+        return;
+
+    }
+
+
+    /*
+       requestAnimationFrame puede ejecutarse a
+       diferentes frecuencias dependiendo del dispositivo.
+
+       Usamos deltaTime para mantener una velocidad
+       consistente en pantallas de 60 Hz, 90 Hz,
+       120 Hz, etc.
+    */
+
+    if (!galleryLastTimestamp) {
+
+        galleryLastTimestamp =
+            timestamp;
+
+    }
+
+
+    const deltaTime =
+        Math.min(
+            timestamp -
+            galleryLastTimestamp,
+            50
+        );
+
+
+    galleryLastTimestamp =
+        timestamp;
+
+
+    /*
+       Solo mover si no existe interacción del usuario.
+    */
+
+    if (
+        !galleryPaused &&
+        !galleryDragging
+    ) {
+
+        /*
+           27 px/s aproximadamente.
+
+           Como queremos desplazar el contenido
+           visualmente hacia la derecha, reducimos
+           scrollLeft.
+        */
+
+        const desplazamiento =
+            (
+                GALLERY_AUTO_SPEED *
+                deltaTime
+            ) / 1000;
+
+
+        gallery.scrollLeft -=
+            desplazamiento;
+
+
+        // =============================================
+        // BUCLE INFINITO
+        // =============================================
+
+        /*
+           Cuando llegamos al principio de la primera
+           secuencia, saltamos al mismo punto de la
+           segunda secuencia.
+
+           Como ambas secuencias son idénticas,
+           visualmente no existe ningún salto.
+        */
+
+        const mitad =
+            obtenerMitadGaleria();
+
+
+        if (
+            mitad > 0 &&
+            gallery.scrollLeft <= 0
+        ) {
+
+            gallery.scrollLeft +=
+                mitad;
+
+        }
+
+    }
+
+
+    /*
+       Programar solamente el siguiente frame.
+    */
+
+    galleryAnimationFrame =
+        requestAnimationFrame(
+            moverGaleria
+        );
+
+}
+
+
+// =====================================================
+// PAUSAR GALERÍA
 // =====================================================
 
 function pausarGaleria() {
 
-    galleryPaused = true;
+    galleryPaused =
+        true;
 
 
     if (galleryResumeTimeout) {
@@ -2074,13 +2157,16 @@ function pausarGaleria() {
             galleryResumeTimeout
         );
 
+        galleryResumeTimeout =
+            null;
+
     }
 
 }
 
 
 // =====================================================
-// REANUDAR AUTOMÁTICO
+// REANUDAR GALERÍA
 // =====================================================
 
 function reanudarGaleria() {
@@ -2098,7 +2184,22 @@ function reanudarGaleria() {
         setTimeout(
             () => {
 
-                galleryPaused = false;
+                galleryPaused =
+                    false;
+
+                /*
+                   Si la galería sigue visible,
+                   aseguramos que el loop continúe.
+                */
+
+                if (
+                    galleryVisible &&
+                    !galleryReducedMotion
+                ) {
+
+                    iniciarMovimientoAutomatico();
+
+                }
 
             },
             GALLERY_RESUME_DELAY
@@ -2126,9 +2227,11 @@ function configurarArrastreGaleria() {
         "pointerdown",
         (event) => {
 
-            galleryDragging = true;
+            galleryDragging =
+                true;
 
-            galleryMoved = false;
+            galleryMoved =
+                false;
 
             galleryStartX =
                 event.clientX;
@@ -2136,13 +2239,9 @@ function configurarArrastreGaleria() {
             galleryStartScrollLeft =
                 gallery.scrollLeft;
 
-
             pausarGaleria();
 
 
-            // Permite continuar recibiendo
-            // el movimiento aunque el puntero
-            // salga del elemento.
             try {
 
                 gallery.setPointerCapture(
@@ -2151,8 +2250,7 @@ function configurarArrastreGaleria() {
 
             } catch (error) {
 
-                // Algunos navegadores pueden
-                // no permitirlo.
+                // Navegador sin soporte.
 
             }
 
@@ -2177,24 +2275,25 @@ function configurarArrastreGaleria() {
                 return;
             }
 
-
             const diferencia =
                 event.clientX -
                 galleryStartX;
 
-
-            // Determinar si realmente
-            // hubo desplazamiento.
             if (
                 Math.abs(diferencia) > 5
             ) {
 
-                galleryMoved = true;
+                galleryMoved =
+                    true;
 
             }
 
 
-            // Mover horizontalmente
+            /*
+               Mantener exactamente el comportamiento
+               manual que ya tenía tu galería.
+            */
+
             gallery.scrollLeft =
                 galleryStartScrollLeft -
                 diferencia;
@@ -2236,32 +2335,8 @@ function configurarArrastreGaleria() {
 
 
     // =================================================
-    // POINTER LEAVE
-    // =================================================
-
-    gallery.addEventListener(
-        "pointerleave",
-        () => {
-
-            if (!galleryDragging) {
-                return;
-            }
-
-            // En PC, si se libera fuera del área,
-            // dejamos que pointerup/capture termine
-            // correctamente la interacción.
-
-        }
-    );
-
-
-    // =================================================
     // MOUSE ENTER
     // =================================================
-    //
-    // El movimiento automático se detiene mientras
-    // el usuario mantiene el mouse sobre la galería.
-    //
 
     gallery.addEventListener(
         "mouseenter",
@@ -2292,7 +2367,7 @@ function configurarArrastreGaleria() {
 
 
     // =================================================
-    // TOUCH
+    // TOUCH START
     // =================================================
 
     gallery.addEventListener(
@@ -2307,6 +2382,10 @@ function configurarArrastreGaleria() {
         }
     );
 
+
+    // =================================================
+    // TOUCH END
+    // =================================================
 
     gallery.addEventListener(
         "touchend",
@@ -2331,8 +2410,8 @@ function finalizarArrastre(
     event
 ) {
 
-    galleryDragging = false;
-
+    galleryDragging =
+        false;
 
     gallery.classList.remove(
         "is-dragging"
@@ -2347,7 +2426,7 @@ function finalizarArrastre(
 
     } catch (error) {
 
-        // No hacer nada si ya fue liberado.
+        // Ya estaba liberado.
 
     }
 
@@ -2355,12 +2434,16 @@ function finalizarArrastre(
     reanudarGaleria();
 
 
-    // Esperar un instante antes de volver
-    // a considerar clicks.
+    /*
+       Evitar que el click inmediatamente posterior
+       al drag sea interpretado como selección.
+    */
+
     setTimeout(
         () => {
 
-            galleryMoved = false;
+            galleryMoved =
+                false;
 
         },
         80
@@ -2378,4 +2461,3 @@ if (gallery) {
     crearGaleria();
 
 }
-
