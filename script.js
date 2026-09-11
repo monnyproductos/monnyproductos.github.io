@@ -117,7 +117,7 @@ const productos = [
             "Ideales para bañar en chocolate y preparación.",
         precio: 10000,
         stock: 12,
-        imagen: "imagen/FrutillaGrande.jpg",
+        imagen: "imagen/FrutillaGrande.webp",
         estado: "Disponible"
     },
 
@@ -128,7 +128,7 @@ const productos = [
             "Sabor intenso y auténtico, ideales para preparar exquisitas mermeladas, jugos naturales y deliciosos postres",
         precio: 6000,
         stock: 20,
-        imagen: "imagen/FrutillaChica.jpg",
+        imagen: "imagen/FrutillaChica.webp",
         estado: "Disponible"
     },
 
@@ -139,7 +139,7 @@ const productos = [
             "Selección de frutillas grandes y medianas, frescas y llenas de sabor",
         precio: 3000,
         stock: 5,
-        imagen: "imagen/frutillaKilo.jpg",
+        imagen: "imagen/frutillaKilo.webp",
         estado: "Disponible"
     }
 
