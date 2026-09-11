@@ -11,8 +11,11 @@
     <title>
         Productos Mony
     </title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" >
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
+
     <!-- JAVASCRIPT -->
     <script src="script.js" defer></script>
 
@@ -24,26 +27,27 @@
     <!-- ENCABEZADO / HERO -->
     <!-- ================================================= -->
 
-   <header class="hero">
+    <header class="hero">
 
-    <div class="hero-content">
+        <div class="hero-content">
 
-        <div class="hero-brand fx-aurora">
-            Productos Mony
+            <div class="hero-brand fx-aurora">
+                Productos Mony
+            </div>
+
+            <p class="reveal">
+                Disfruta de la frescura natural del campo.
+                Sin intermediarios, 100% naturales y llenas de sabor.
+            </p>
+
+            <a href="#productos"
+               class="btn-primary reveal">
+                Ver Productos
+            </a>
+
         </div>
 
-        <p>
-            Disfruta de la frescura natural del campo.
-            Sin intermediarios, 100% naturales y llenas de sabor.
-        </p>
-
-        <a href="#productos" class="btn-primary">
-            Ver Productos
-        </a>
-
-    </div>
-
-</header>
+    </header>
 
 
     <main>
@@ -52,7 +56,7 @@
         <!-- ESTADO DE LA COSECHA -->
         <!-- ================================================= -->
 
-        <section class="harvest-section">
+        <section class="harvest-section reveal">
 
             <div class="container">
 
@@ -98,15 +102,45 @@
 
             <div class="container">
 
-                <h2 class="section-title">
+                <h2 class="section-title reveal">
                     Nuestras Frutillas
                 </h2>
 
                 <div
-                    class="products-grid"
+                    class="products-grid reveal"
                     id="products-grid">
                 </div>
 
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- GALERÍA -->
+        <!-- ================================================= -->
+
+        <section
+            class="gallery-section reveal"
+            aria-label="Galería de imágenes">
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    Galería
+                </h2>
+
+            </div>
+
+
+            <!--
+                Las imágenes se generan automáticamente
+                desde script.js
+            -->
+
+            <div
+                class="gallery"
+                id="gallery">
             </div>
 
         </section>
@@ -351,9 +385,11 @@
     <!-- FOOTER -->
     <!-- ================================================= -->
 
-    <footer>
+    <footer class="reveal">
         Desarrollado por Abraham Pulgar
     </footer>
+
 </body>
 
 </html>
+
