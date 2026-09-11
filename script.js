@@ -4,8 +4,8 @@
 // =====================================================
 
 const fondosHero = [
-    "imagen/fotofondo1.webp",
-    "imagen/fotofondo2.webp"
+    "imagen/fotofondo1.jpg",
+    "imagen/fotofondo2.jpg"
 ];
 
 let fondoActual = 0;
@@ -117,7 +117,7 @@ const productos = [
             "Ideales para bañar en chocolate y preparación.",
         precio: 10000,
         stock: 12,
-        imagen: "imagen/FrutillaGrande.webp",
+        imagen: "imagen/FrutillaGrande.jpg",
         estado: "Disponible"
     },
 
@@ -128,7 +128,7 @@ const productos = [
             "Sabor intenso y auténtico, ideales para preparar exquisitas mermeladas, jugos naturales y deliciosos postres",
         precio: 6000,
         stock: 20,
-        imagen: "imagen/FrutillaChica.webp",
+        imagen: "imagen/FrutillaChica.jpg",
         estado: "Disponible"
     },
 
@@ -139,7 +139,7 @@ const productos = [
             "Selección de frutillas grandes y medianas, frescas y llenas de sabor",
         precio: 3000,
         stock: 5,
-        imagen: "imagen/frutillaKilo.webp",
+        imagen: "imagen/frutillaKilo.jpg",
         estado: "Disponible"
     }
 
@@ -1662,3 +1662,720 @@ if (
     );
 
 }
+/* =============================================
+   ANIMACIONES AL HACER SCROLL
+============================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const elementos = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+        (entradas) => {
+
+            entradas.forEach((entrada) => {
+
+                if (entrada.isIntersecting) {
+
+                    // Aparece cuando entra en pantalla
+                    entrada.target.classList.add("visible");
+
+                } else {
+
+                    // Se oculta cuando sale de pantalla
+                    entrada.target.classList.remove("visible");
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+    elementos.forEach((elemento) => {
+        observer.observe(elemento);
+    });
+
+});
+//galeria
+/* =====================================================
+   GALERÍA
+===================================================== */
+
+// =====================================================
+// GALERÍA HORIZONTAL
+// DESLIZAMIENTO MANUAL + MOVIMIENTO AUTOMÁTICO
+// =====================================================
+
+const gallery = document.getElementById("gallery");
+
+
+// =====================================================
+// IMÁGENES DE LA GALERÍA
+// =====================================================
+//
+// IMPORTANTE:
+// Agrega aquí todas las fotografías que tengas dentro
+// de la carpeta /imagen/.
+//
+// Ejemplo:
+// "imagen/galeria9.jpeg"
+// "imagen/galeria10.jpeg"
+//
+// El navegador no puede detectar automáticamente
+// los archivos nuevos de una carpeta.
+//
+// =====================================================
+
+const galleryImages = [
+    "imagen/galeria1.webp",
+    "imagen/galeria2.webp",
+    "imagen/galeria3.webp",
+    "imagen/galeria4.webp",
+    "imagen/galeria5.webp",
+    "imagen/galeria6.webp",
+    "imagen/galeria7.webp",
+    "imagen/galeria8.webp"
+
+    // Agrega aquí las nuevas:
+    // "imagen/galeria9.jpeg",
+    // "imagen/galeria10.jpeg"
+];
+
+
+// =====================================================
+// CONFIGURACIÓN
+// =====================================================
+
+const GALLERY_AUTO_SPEED = 0.45;
+
+// Tiempo que permanece pausado después
+// de una interacción manual.
+const GALLERY_RESUME_DELAY = 2500;
+
+
+// =====================================================
+// VARIABLES
+// =====================================================
+
+let galleryAnimationFrame = null;
+
+let galleryPaused = false;
+
+let galleryResumeTimeout = null;
+
+let galleryDragging = false;
+
+let galleryStartX = 0;
+
+let galleryStartScrollLeft = 0;
+
+let galleryMoved = false;
+
+
+// =====================================================
+// CREAR GALERÍA
+// =====================================================
+
+function crearGaleria() {
+
+    if (!gallery) {
+        return;
+    }
+
+    if (!galleryImages.length) {
+        console.warn(
+            "La galería no contiene imágenes."
+        );
+        return;
+    }
+
+
+    // Limpiar galería
+    gallery.innerHTML = "";
+
+
+    // =================================================
+    // CREAR PRIMER GRUPO DE IMÁGENES
+    // =================================================
+
+    galleryImages.forEach(
+        (image, index) => {
+
+            crearElementoGaleria(
+                image,
+                index,
+                false
+            );
+
+        }
+    );
+
+
+    // =================================================
+    // DUPLICAR LAS IMÁGENES
+    // =================================================
+    //
+    // Esto permite crear un desplazamiento circular
+    // sin que el usuario vea un salto al llegar al final.
+    //
+
+    galleryImages.forEach(
+        (image, index) => {
+
+            crearElementoGaleria(
+                image,
+                index,
+                true
+            );
+
+        }
+    );
+
+
+    // =================================================
+    // INICIAR INTERACCIÓN MANUAL
+    // =================================================
+
+    configurarArrastreGaleria();
+
+
+    // =================================================
+    // INICIAR MOVIMIENTO AUTOMÁTICO
+    // =================================================
+
+    iniciarMovimientoAutomatico();
+
+}
+
+
+// =====================================================
+// CREAR ELEMENTO INDIVIDUAL
+// =====================================================
+
+function crearElementoGaleria(
+    image,
+    index,
+    duplicado
+) {
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "gallery-item";
+
+
+    // Marcar los duplicados
+    if (duplicado) {
+
+        item.classList.add(
+            "gallery-clone"
+        );
+
+    }
+
+
+    item.innerHTML = `
+
+        <img
+            src="${image}"
+            alt="Productos Mony - imagen ${index + 1}"
+            loading="${duplicado ? "lazy" : "eager"}"
+            draggable="false"
+        >
+
+    `;
+
+
+    // =================================================
+    // DETECTAR IMÁGENES QUE NO EXISTEN
+    // =================================================
+
+    const img =
+        item.querySelector("img");
+
+    if (img) {
+
+        img.addEventListener(
+            "error",
+            () => {
+
+                console.error(
+                    "No se pudo cargar la imagen de la galería:",
+                    image
+                );
+
+                item.classList.add(
+                    "gallery-image-error"
+                );
+
+            }
+        );
+
+    }
+
+
+    gallery.appendChild(item);
+
+
+    // =================================================
+    // CLICK
+    // =================================================
+    //
+    // Solo se considera click si el usuario no arrastró.
+    //
+
+    item.addEventListener(
+        "click",
+        () => {
+
+            // Si hubo desplazamiento,
+            // no ejecutar selección.
+            if (galleryMoved) {
+                return;
+            }
+
+
+            const isActive =
+                item.classList.contains(
+                    "active"
+                );
+
+
+            gallery
+                .querySelectorAll(
+                    ".gallery-item"
+                )
+                .forEach(
+                    element => {
+
+                        element.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            if (isActive) {
+
+                gallery.classList.remove(
+                    "has-active"
+                );
+
+            } else {
+
+                item.classList.add(
+                    "active"
+                );
+
+                gallery.classList.add(
+                    "has-active"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// MOVIMIENTO AUTOMÁTICO
+// =====================================================
+
+function iniciarMovimientoAutomatico() {
+
+    if (!gallery) {
+        return;
+    }
+
+
+    // Evitar múltiples animaciones
+    if (galleryAnimationFrame) {
+
+        cancelAnimationFrame(
+            galleryAnimationFrame
+        );
+
+    }
+
+
+    function mover() {
+
+        if (
+            !galleryPaused &&
+            !galleryDragging
+        ) {
+
+            gallery.scrollLeft +=
+                GALLERY_AUTO_SPEED;
+
+
+            // =================================================
+            // CREAR BUCLE INFINITO
+            // =================================================
+            //
+            // La segunda mitad es una copia de la primera.
+            // Cuando llegamos a ella volvemos al inicio
+            // sin que visualmente se note.
+            //
+
+            const mitad =
+                gallery.scrollWidth / 2;
+
+
+            if (
+                gallery.scrollLeft >=
+                mitad
+            ) {
+
+                gallery.scrollLeft -=
+                    mitad;
+
+            }
+
+        }
+
+
+        galleryAnimationFrame =
+            requestAnimationFrame(
+                mover
+            );
+
+    }
+
+
+    galleryAnimationFrame =
+        requestAnimationFrame(
+            mover
+        );
+
+}
+
+
+// =====================================================
+// PAUSAR AUTOMÁTICO
+// =====================================================
+
+function pausarGaleria() {
+
+    galleryPaused = true;
+
+
+    if (galleryResumeTimeout) {
+
+        clearTimeout(
+            galleryResumeTimeout
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// REANUDAR AUTOMÁTICO
+// =====================================================
+
+function reanudarGaleria() {
+
+    if (galleryResumeTimeout) {
+
+        clearTimeout(
+            galleryResumeTimeout
+        );
+
+    }
+
+
+    galleryResumeTimeout =
+        setTimeout(
+            () => {
+
+                galleryPaused = false;
+
+            },
+            GALLERY_RESUME_DELAY
+        );
+
+}
+
+
+// =====================================================
+// CONFIGURAR ARRASTRE
+// =====================================================
+
+function configurarArrastreGaleria() {
+
+    if (!gallery) {
+        return;
+    }
+
+
+    // =================================================
+    // POINTER DOWN
+    // =================================================
+
+    gallery.addEventListener(
+        "pointerdown",
+        (event) => {
+
+            galleryDragging = true;
+
+            galleryMoved = false;
+
+            galleryStartX =
+                event.clientX;
+
+            galleryStartScrollLeft =
+                gallery.scrollLeft;
+
+
+            pausarGaleria();
+
+
+            // Permite continuar recibiendo
+            // el movimiento aunque el puntero
+            // salga del elemento.
+            try {
+
+                gallery.setPointerCapture(
+                    event.pointerId
+                );
+
+            } catch (error) {
+
+                // Algunos navegadores pueden
+                // no permitirlo.
+
+            }
+
+
+            gallery.classList.add(
+                "is-dragging"
+            );
+
+        }
+    );
+
+
+    // =================================================
+    // POINTER MOVE
+    // =================================================
+
+    gallery.addEventListener(
+        "pointermove",
+        (event) => {
+
+            if (!galleryDragging) {
+                return;
+            }
+
+
+            const diferencia =
+                event.clientX -
+                galleryStartX;
+
+
+            // Determinar si realmente
+            // hubo desplazamiento.
+            if (
+                Math.abs(diferencia) > 5
+            ) {
+
+                galleryMoved = true;
+
+            }
+
+
+            // Mover horizontalmente
+            gallery.scrollLeft =
+                galleryStartScrollLeft -
+                diferencia;
+
+        }
+    );
+
+
+    // =================================================
+    // POINTER UP
+    // =================================================
+
+    gallery.addEventListener(
+        "pointerup",
+        (event) => {
+
+            finalizarArrastre(
+                event
+            );
+
+        }
+    );
+
+
+    // =================================================
+    // POINTER CANCEL
+    // =================================================
+
+    gallery.addEventListener(
+        "pointercancel",
+        (event) => {
+
+            finalizarArrastre(
+                event
+            );
+
+        }
+    );
+
+
+    // =================================================
+    // POINTER LEAVE
+    // =================================================
+
+    gallery.addEventListener(
+        "pointerleave",
+        () => {
+
+            if (!galleryDragging) {
+                return;
+            }
+
+            // En PC, si se libera fuera del área,
+            // dejamos que pointerup/capture termine
+            // correctamente la interacción.
+
+        }
+    );
+
+
+    // =================================================
+    // MOUSE ENTER
+    // =================================================
+    //
+    // El movimiento automático se detiene mientras
+    // el usuario mantiene el mouse sobre la galería.
+    //
+
+    gallery.addEventListener(
+        "mouseenter",
+        () => {
+
+            pausarGaleria();
+
+        }
+    );
+
+
+    // =================================================
+    // MOUSE LEAVE
+    // =================================================
+
+    gallery.addEventListener(
+        "mouseleave",
+        () => {
+
+            if (!galleryDragging) {
+
+                reanudarGaleria();
+
+            }
+
+        }
+    );
+
+
+    // =================================================
+    // TOUCH
+    // =================================================
+
+    gallery.addEventListener(
+        "touchstart",
+        () => {
+
+            pausarGaleria();
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    gallery.addEventListener(
+        "touchend",
+        () => {
+
+            reanudarGaleria();
+
+        },
+        {
+            passive: true
+        }
+    );
+
+}
+
+
+// =====================================================
+// FINALIZAR ARRASTRE
+// =====================================================
+
+function finalizarArrastre(
+    event
+) {
+
+    galleryDragging = false;
+
+
+    gallery.classList.remove(
+        "is-dragging"
+    );
+
+
+    try {
+
+        gallery.releasePointerCapture(
+            event.pointerId
+        );
+
+    } catch (error) {
+
+        // No hacer nada si ya fue liberado.
+
+    }
+
+
+    reanudarGaleria();
+
+
+    // Esperar un instante antes de volver
+    // a considerar clicks.
+    setTimeout(
+        () => {
+
+            galleryMoved = false;
+
+        },
+        80
+    );
+
+}
+
+
+// =====================================================
+// INICIALIZAR GALERÍA
+// =====================================================
+
+if (gallery) {
+
+    crearGaleria();
+
+}
+
