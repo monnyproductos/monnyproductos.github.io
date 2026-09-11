@@ -896,6 +896,9 @@ input {
     }
 
 }
+
+
+
 /* =====================================================
    SUBTITULO
 ===================================================== */
@@ -950,6 +953,9 @@ input {
     }
 
 }
+
+
+
 /* =====================================================
    TEXTO DEL HERO
 ===================================================== */
@@ -960,6 +966,9 @@ input {
         20px;
 
 }
+
+
+
 .hero-content p {
 
     max-width:
@@ -972,6 +981,9 @@ input {
         1.6;
 
 }
+
+
+
 /* =====================================================
    BOTÓN PRINCIPAL
 ===================================================== */
@@ -2609,7 +2621,7 @@ footer {
 
 
 /* =====================================================
-   TABLET  icono carrito listo
+   TABLET
 ===================================================== */
 
 @media (max-width: 900px) {
@@ -2627,24 +2639,6 @@ footer {
 
         height:
             calc(100vh - 40px);
-
-    }
-    .cart-toggle {
-
-        width: 64px;
-
-    height: 64px;
-
-    left: 50%;
-
-    right: auto;
-
-    bottom:
-        max(
-            45px,
-            env(safe-area-inset-bottom)
-        );
-
 
     }
 
@@ -2755,7 +2749,7 @@ footer {
 
 
     /* =============================================
-       BOTÓN CARRITO  listo
+       BOTÓN CARRITO
     ============================================= */
 
     .cart-toggle {
@@ -2770,7 +2764,7 @@ footer {
 
     bottom:
         max(
-            40px,
+            64px,
             env(safe-area-inset-bottom)
         );
 
@@ -2867,7 +2861,7 @@ footer {
 
 
 /* =====================================================
-   CELULARES PEQUEÑOS   icono carro listo
+   CELULARES PEQUEÑOS
 ===================================================== */
 
 @media (max-width: 380px) {
@@ -2883,9 +2877,9 @@ footer {
 
     .cart-toggle {
 
-        width: 64px;
+        width: 54px;
 
-    height: 64px;
+    height: 54px;
 
     left: 50%;
 
@@ -2893,7 +2887,7 @@ footer {
 
     bottom:
         max(
-            40px,
+            30px,
             env(safe-area-inset-bottom)
         );
 
@@ -3167,3 +3161,794 @@ footer {
             0.03em;
     }
 }
+/* =============================================
+   ANIMACIONES AL HACER SCROLL
+============================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =====================================================
+   GALERÍA HORIZONTAL
+===================================================== */
+
+.gallery-section {
+
+    width: 100%;
+
+    padding:
+        70px 0 80px;
+
+    overflow: hidden;
+
+    background:
+        var(--blanco);
+}
+
+
+/* =====================================================
+   CONTENEDOR HORIZONTAL
+===================================================== */
+
+.gallery {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    width: 100%;
+
+    padding:
+        25px 8% 45px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+
+    overscroll-behavior-x: contain;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+.gallery::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =====================================================
+   IMAGEN INDIVIDUAL
+===================================================== */
+
+.gallery-item {
+
+    position: relative;
+
+    flex:
+        0 0 clamp(
+            280px,
+            32vw,
+            480px
+        );
+
+    aspect-ratio:
+        16 / 9;
+
+    border-radius:
+        16px;
+
+    cursor:
+        pointer;
+
+    transform:
+        scale(1);
+
+    transform-origin:
+        center center;
+
+    z-index:
+        1;
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease,
+        opacity 0.4s ease,
+        box-shadow 0.4s ease;
+
+    will-change:
+        transform,
+        filter;
+}
+
+
+/* =====================================================
+   IMAGEN
+===================================================== */
+
+.gallery-item img {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        inherit;
+
+    user-select:
+        none;
+
+    -webkit-user-drag:
+        none;
+
+    pointer-events:
+        none;
+
+    background:
+        #eeeeee;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   EFECTO AL PASAR EL MOUSE
+===================================================== */
+
+.gallery-item:hover {
+
+    transform:
+        scale(1.15);
+
+    z-index:
+        10;
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.22);
+}
+
+
+/* =====================================================
+   CUANDO EXISTE UNA IMAGEN SELECCIONADA
+===================================================== */
+
+.gallery.has-active .gallery-item:not(.active) {
+
+    filter:
+        brightness(0.45);
+
+    opacity:
+        0.75;
+
+}
+
+
+/* =====================================================
+   IMAGEN SELECCIONADA
+===================================================== */
+
+.gallery.has-active .gallery-item.active {
+
+    transform:
+        scale(1.15);
+
+    filter:
+        brightness(1);
+
+    opacity:
+        1;
+
+    z-index:
+        20;
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.28);
+}
+
+
+/* =====================================================
+   EVITAR QUE EL HOVER ROMPA LA SELECCIÓN
+===================================================== */
+
+.gallery.has-active
+.gallery-item:not(.active):hover {
+
+    transform:
+        scale(1);
+
+    filter:
+        brightness(0.45);
+
+    opacity:
+        0.75;
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .gallery-section {
+
+        padding:
+            60px 0 70px;
+    }
+
+    .gallery {
+
+        gap:
+            14px;
+
+        padding:
+            20px 5% 40px;
+    }
+
+    .gallery-item {
+
+        flex-basis:
+            60vw;
+
+        border-radius:
+            14px;
+    }
+
+}
+
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .gallery-section {
+
+        padding:
+            50px 0 60px;
+    }
+
+    .gallery {
+
+        gap:
+            12px;
+
+        padding:
+            20px 5% 35px;
+    }
+
+    .gallery-item {
+
+        flex-basis:
+            78vw;
+
+        border-radius:
+            13px;
+    }
+
+}
+
+
+/* =====================================================
+   CELULARES PEQUEÑOS
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .gallery {
+
+        gap:
+            10px;
+
+        padding-left:
+            4%;
+
+        padding-right:
+            4%;
+    }
+
+    .gallery-item {
+
+        flex-basis:
+            84vw;
+    }
+
+}
+
+
+/* =====================================================
+   REDUCIR ANIMACIONES SI EL USUARIO
+   PREFIERE MENOS MOVIMIENTO
+===================================================== */
+/* =====================================================
+   GALERÍA HORIZONTAL
+===================================================== */
+
+.gallery-section {
+
+    width: 100%;
+
+    padding:
+        70px 0 80px;
+
+    overflow: hidden;
+
+    background:
+        var(--blanco);
+}
+
+
+/* =====================================================
+   CONTENEDOR HORIZONTAL
+===================================================== */
+
+.gallery {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    width: 100%;
+
+    padding:
+        25px 8% 45px;
+
+    /*
+       Permite desplazamiento horizontal
+       mediante touch, trackpad y mouse.
+    */
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    /*
+       El desplazamiento manual queda bajo
+       control del navegador.
+    */
+    scroll-behavior: auto;
+
+    /*
+       Ocultar barra de desplazamiento.
+    */
+    scrollbar-width: none;
+
+    /*
+       Evita que el gesto horizontal
+       se propague innecesariamente.
+    */
+    overscroll-behavior-x: contain;
+
+    /*
+       Desplazamiento táctil fluido.
+    */
+    -webkit-overflow-scrolling: touch;
+
+    /*
+       MUY IMPORTANTE:
+       permite el gesto horizontal
+       en celulares y tablets.
+    */
+    touch-action: pan-x;
+
+    /*
+       Evita selección accidental
+       mientras se arrastra.
+    */
+    user-select: none;
+
+    /*
+       Cursor de galería desplazable.
+    */
+    cursor: grab;
+}
+
+
+/* =====================================================
+   OCULTAR SCROLLBAR
+===================================================== */
+
+.gallery::-webkit-scrollbar {
+
+    display: none;
+
+}
+
+
+/* =====================================================
+   GALERÍA DURANTE ARRASTRE
+===================================================== */
+
+.gallery.is-dragging {
+
+    cursor: grabbing;
+
+    /*
+       Evita selección de contenido.
+    */
+    user-select: none;
+
+}
+
+
+/* =====================================================
+   IMAGEN INDIVIDUAL
+===================================================== */
+
+.gallery-item {
+
+    position: relative;
+
+    /*
+       IMPORTANTE:
+       No permitir que las imágenes
+       se reduzcan para intentar entrar
+       en una sola línea.
+    */
+    flex:
+        0 0 clamp(
+            280px,
+            32vw,
+            480px
+        );
+
+    aspect-ratio:
+        16 / 9;
+
+    border-radius:
+        16px;
+
+    cursor:
+        grab;
+
+    transform:
+        scale(1);
+
+    transform-origin:
+        center center;
+
+    z-index:
+        1;
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease,
+        opacity 0.4s ease,
+        box-shadow 0.4s ease;
+
+    will-change:
+        transform,
+        filter;
+
+    /*
+       Evita que el navegador trate
+       la imagen como elemento arrastrable.
+    */
+    user-select: none;
+
+}
+
+
+/* =====================================================
+   DURANTE ARRASTRE
+===================================================== */
+
+.gallery.is-dragging
+.gallery-item {
+
+    cursor:
+        grabbing;
+
+}
+
+
+/* =====================================================
+   IMAGEN
+===================================================== */
+
+.gallery-item img {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        inherit;
+
+    user-select:
+        none;
+
+    -webkit-user-drag:
+        none;
+
+    /*
+       El pointer queda controlado
+       por .gallery.
+    */
+    pointer-events:
+        none;
+
+    background:
+        #eeeeee;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.12);
+
+}
+
+
+/* =====================================================
+   ERROR DE IMAGEN
+===================================================== */
+
+.gallery-image-error {
+
+    background:
+        #eeeeee;
+
+    opacity:
+        0.5;
+
+}
+
+
+/* =====================================================
+   EFECTO AL PASAR EL MOUSE
+===================================================== */
+
+.gallery-item:hover {
+
+    transform:
+        scale(1.08);
+
+    z-index:
+        10;
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.22);
+
+}
+
+
+/*
+   No hacer zoom mientras se arrastra.
+*/
+
+.gallery.is-dragging
+.gallery-item:hover {
+
+    transform:
+        scale(1);
+
+}
+
+
+/* =====================================================
+   CUANDO EXISTE UNA IMAGEN SELECCIONADA
+===================================================== */
+
+.gallery.has-active
+.gallery-item:not(.active) {
+
+    filter:
+        brightness(0.45);
+
+    opacity:
+        0.75;
+
+}
+
+
+/* =====================================================
+   IMAGEN SELECCIONADA
+===================================================== */
+
+.gallery.has-active
+.gallery-item.active {
+
+    transform:
+        scale(1.15);
+
+    filter:
+        brightness(1);
+
+    opacity:
+        1;
+
+    z-index:
+        20;
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.28);
+
+}
+
+
+/* =====================================================
+   EVITAR QUE EL HOVER ROMPA LA SELECCIÓN
+===================================================== */
+
+.gallery.has-active
+.gallery-item:not(.active):hover {
+
+    transform:
+        scale(1);
+
+    filter:
+        brightness(0.45);
+
+    opacity:
+        0.75;
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .gallery-section {
+
+        padding:
+            60px 0 70px;
+
+    }
+
+
+    .gallery {
+
+        gap:
+            14px;
+
+        padding:
+            20px 5% 40px;
+
+    }
+
+
+    .gallery-item {
+
+        flex-basis:
+            60vw;
+
+        border-radius:
+            14px;
+
+    }
+
+}
+
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .gallery-section {
+
+        padding:
+            50px 0 60px;
+
+    }
+
+
+    .gallery {
+
+        gap:
+            12px;
+
+        padding:
+            20px 5% 35px;
+
+    }
+
+
+    .gallery-item {
+
+        flex-basis:
+            78vw;
+
+        border-radius:
+            13px;
+
+    }
+
+}
+
+
+/* =====================================================
+   CELULARES PEQUEÑOS
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .gallery {
+
+        gap:
+            10px;
+
+        padding-left:
+            4%;
+
+        padding-right:
+            4%;
+
+    }
+
+
+    .gallery-item {
+
+        flex-basis:
+            84vw;
+
+    }
+
+}
+
+
+/* =====================================================
+   REDUCIR ANIMACIONES
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .gallery {
+
+        scroll-behavior:
+            auto;
+
+    }
+
+
+    .gallery-item {
+
+        transition:
+            filter 0.2s ease,
+            opacity 0.2s ease;
+
+    }
+
+}
+
