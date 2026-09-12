@@ -1123,13 +1123,10 @@ function generarMensajeWhatsApp(
 
     let mensaje =
         ` *NUEVO PEDIDO - PRODUCTOS MONY*\n\n` +
-
+        ` *ESTADO: PEDIDO PENDIENTE DE ENTREGA*\n\n` +
         ` *Cliente:* ${pedidoCompleto.cliente.nombre}\n` +
-
         ` *Area del cliente:* ${pedidoCompleto.cliente.lugar}\n` +
-
         ` *Teléfono:* ${pedidoCompleto.cliente.telefono}\n\n` +
-
         ` *DETALLE DEL PEDIDO*\n\n`;
 
     pedidoCompleto.items.forEach(
