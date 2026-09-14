@@ -3674,3 +3674,72 @@ a {
     color: black;
 }
 
+/* =====================================================
+   CORRECCIÓN FINAL — TÍTULO "PRODUCTOS MONY"
+   Evita recortes en PC, tablet y móviles.
+   ===================================================== */
+
+.hero-content {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.fx-aurora {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.08em;
+    padding-right: 0.08em;
+
+    font-size: clamp(3rem, 9vw, 8rem);
+    line-height: 1.2;
+    letter-spacing: 0.025em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* =====================================================
+   MÓVILES
+   ===================================================== */
+
+@media (max-width: 650px) {
+
+    .hero-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .fx-aurora {
+        font-size: clamp(2.45rem, 11.5vw, 4.8rem);
+        line-height: 1.2;
+        letter-spacing: 0.015em;
+        padding-left: 0.03em;
+        padding-right: 0.03em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* =====================================================
+   CELULARES PEQUEÑOS
+   ===================================================== */
+
+@media (max-width: 380px) {
+
+    .hero-content {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .fx-aurora {
+        font-size: 2.35rem;
+        letter-spacing: 0.01em;
+        line-height: 1.2;
+    }
+}
