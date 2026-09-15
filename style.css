@@ -258,12 +258,231 @@ input {
 }
 
 /* Botón */
-.btn-primary {
+.button-container-1 {
     margin-top: 5px;
 }
 
+/* =====================================================
+   BOTÓN MASK 1 — VER PRODUCTOS
+===================================================== */
+
+.button-container-1 {
+    position: relative;
+    width: 180px;
+    height: 52px;
+
+    margin: 5px auto 0;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+
+    font-family: 'Open Sans', sans-serif;
+
+    letter-spacing: 1px;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+    /* Evita que el botón sea afectado por elementos externos */
+    isolation: isolate;
+}
 
 
+/* =====================================================
+   TEXTO SUPERIOR DEL MASK
+===================================================== */
+
+.button-container-1 .mas {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* =====================================================
+   BOTÓN MASK
+===================================================== */
+
+.button-container-1 a,
+.button-container-1 button {
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 101%;
+    height: 100%;
+
+    padding: 0;
+
+    border: none;
+
+    background: #0154fa;
+
+    color: #ffffff;
+
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    /*
+       Máscara original de MASK 1
+    */
+    -webkit-mask-image: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+    mask-image: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+
+    -webkit-mask-size: 2300% 100%;
+    mask-size: 2300% 100%;
+
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+
+    -webkit-animation: mask1-out 0.7s steps(22) forwards;
+    animation: mask1-out 0.7s steps(22) forwards;
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   HOVER — ANIMACIÓN MASK 1
+===================================================== */
+
+.button-container-1 a:hover,
+.button-container-1 button:hover {
+
+    -webkit-animation: mask1-in 0.7s steps(22) forwards;
+    animation: mask1-in 0.7s steps(22) forwards;
+}
+
+
+/* =====================================================
+   EFECTO DEL CONTENEDOR
+===================================================== */
+
+.button-container-1:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =====================================================
+   PRESIONAR
+===================================================== */
+
+.button-container-1 a:active,
+.button-container-1 button:active {
+
+    transform: scale(0.97);
+}
+
+
+/* =====================================================
+   ANIMACIÓN MASK — ENTRADA
+===================================================== */
+
+@keyframes mask1-in {
+
+    from {
+        -webkit-mask-position: 100% 0;
+        mask-position: 100% 0;
+    }
+
+    to {
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
+    }
+}
+
+
+/* =====================================================
+   ANIMACIÓN MASK — SALIDA
+===================================================== */
+
+@keyframes mask1-out {
+
+    from {
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
+    }
+
+    to {
+        -webkit-mask-position: 100% 0;
+        mask-position: 100% 0;
+    }
+}
+
+
+/* =====================================================
+   MÓVIL
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .button-container-1 {
+        width: 170px;
+        height: 50px;
+    }
+
+    .button-container-1 .mas,
+    .button-container-1 a,
+    .button-container-1 button {
+        font-size: 13px;
+    }
+}
+
+
+/* =====================================================
+   CELULARES PEQUEÑOS
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .button-container-1 {
+        width: 160px;
+        height: 48px;
+    }
+
+    .button-container-1 .mas,
+    .button-container-1 a,
+    .button-container-1 button {
+        font-size: 12px;
+    }
+}
 
 /* =====================================================
    NAVBAR
@@ -544,7 +763,7 @@ input {
         serif;
 
     font-size:
-        clamp(1.35rem, 3vw, 2.5rem);
+        clamp(1.3rem, 3vw, 2.2rem);
 
     font-weight:
         400;
@@ -1011,75 +1230,6 @@ input {
 
     line-height:
         1.6;
-
-}
-
-
-
-/* =====================================================
-   BOTÓN PRINCIPAL
-===================================================== */
-
-.btn-primary {
-
-    display:
-        inline-block;
-
-    padding:
-        15px 35px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #178717,
-            #49e649
-        );
-
-    color:
-        #fff;
-
-    text-decoration:
-        none;
-
-    font-size:
-        18px;
-
-    font-weight:
-        700;
-
-    border-radius:
-        50px;
-
-    box-shadow:
-        0 6px 18px
-        rgba(0, 0, 0, 0.25);
-
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
-
-}
-
-
-
-.btn-primary:hover {
-
-    transform:
-        translateY(-4px)
-        scale(1.03);
-
-    box-shadow:
-        0 10px 25px
-        rgba(0, 0, 0, 0.3);
-
-}
-
-
-
-.btn-primary:active {
-
-    transform:
-        scale(0.97);
 
 }
 
