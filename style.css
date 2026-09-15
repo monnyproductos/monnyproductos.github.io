@@ -3759,9 +3759,14 @@ footer {
             13px;
 
     }
+    .harvest-section{
+        padding: 10px;
+    }
+    .status-indicator{
+        padding: 5px;
+    }
 
 }
-
 
 /* =====================================================
    CELULARES PEQUEÑOS
@@ -3789,7 +3794,9 @@ footer {
             84vw;
 
     }
-
+    .status-indicator{
+        padding: 5px;
+    }
 }
 
 
