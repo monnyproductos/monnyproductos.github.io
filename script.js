@@ -1552,7 +1552,7 @@ document.addEventListener(
 // =====================================================
 // GALERÍA HORIZONTAL
 // MOVIMIENTO AUTOMÁTICO + ARRASTRE MANUAL
-// + INTERSECTIONOBSERVER
+// SIN REPETIR IMÁGENES
 // =====================================================
 
 const gallery =
@@ -1581,13 +1581,8 @@ const galleryImages = [
 // CONFIGURACIÓN
 // =====================================================
 
-// Velocidad en píxeles por segundo.
-// Mantener un valor bajo produce un movimiento
-// continuo y elegante.
 const GALLERY_AUTO_SPEED = 27;
 
-
-// Tiempo de espera después de una interacción manual.
 const GALLERY_RESUME_DELAY = 2500;
 
 
@@ -1651,7 +1646,7 @@ function crearGaleria() {
 
 
     // =================================================
-    // PRIMER GRUPO
+    // ÚNICO GRUPO DE IMÁGENES
     // =================================================
 
     galleryImages.forEach(
@@ -1668,76 +1663,18 @@ function crearGaleria() {
 
 
     // =================================================
-    // SEGUNDO GRUPO
-    // =================================================
-    //
-    // Se duplica para crear el bucle infinito.
-    //
-
-    galleryImages.forEach(
-        (image, index) => {
-
-            crearElementoGaleria(
-                image,
-                index,
-                true
-            );
-
-        }
-    );
-
-
-    // =================================================
     // ESPERAR A QUE EL DOM CALCULE EL ANCHO
     // =================================================
 
     requestAnimationFrame(() => {
 
-        const mitad =
-            obtenerMitadGaleria();
-
-        if (mitad > 0) {
-
-            /*
-               Comenzamos en la segunda copia.
-
-               Esto permite desplazarnos hacia la derecha
-               visualmente y, al llegar al inicio, saltar
-               a la segunda copia sin que el usuario perciba
-               el cambio.
-            */
-            gallery.scrollLeft =
-                mitad;
-
-        }
+        gallery.scrollLeft = 0;
 
         configurarArrastreGaleria();
 
         configurarObservadorGaleria();
 
     });
-
-}
-
-
-// =====================================================
-// OBTENER MITAD REAL DE LA GALERÍA
-// =====================================================
-
-function obtenerMitadGaleria() {
-
-    if (!gallery) {
-        return 0;
-    }
-
-    /*
-       Como las dos mitades contienen exactamente
-       las mismas imágenes y espacios, la mitad
-       del scrollWidth corresponde al ancho de
-       una secuencia completa.
-    */
-
-    return gallery.scrollWidth / 2;
 
 }
 
@@ -1758,20 +1695,12 @@ function crearElementoGaleria(
     item.className =
         "gallery-item";
 
-    if (duplicado) {
-
-        item.classList.add(
-            "gallery-clone"
-        );
-
-    }
-
     item.innerHTML = `
 
         <img
             src="${image}"
             alt="Productos Mony - imagen ${index + 1}"
-            loading="${duplicado ? "lazy" : "eager"}"
+            loading="eager"
             draggable="false"
         >
 
@@ -1871,13 +1800,6 @@ function configurarObservadorGaleria() {
         return;
     }
 
-
-    /*
-       IntersectionObserver evita mantener
-       requestAnimationFrame ejecutándose
-       cuando la galería está fuera de pantalla.
-    */
-
     galleryObserver =
         new IntersectionObserver(
             (entradas) => {
@@ -1896,16 +1818,8 @@ function configurarObservadorGaleria() {
 
                 if (galleryVisible) {
 
-                    /*
-                       Reiniciamos el timestamp para
-                       evitar que el primer frame después
-                       de volver al viewport intente avanzar
-                       varios segundos de golpe.
-                    */
-
                     galleryLastTimestamp =
                         performance.now();
-
 
                     iniciarMovimientoAutomatico();
 
@@ -1917,11 +1831,6 @@ function configurarObservadorGaleria() {
 
             },
             {
-                /*
-                   Un pequeño margen permite preparar
-                   la animación justo antes de que el
-                   usuario llegue a la galería.
-                */
                 root: null,
 
                 rootMargin:
@@ -1951,39 +1860,20 @@ function iniciarMovimientoAutomatico() {
         return;
     }
 
-
-    /*
-       No ejecutar animación si el usuario
-       ha solicitado reducir movimiento.
-    */
-
     if (galleryReducedMotion) {
         return;
     }
-
-
-    /*
-       Nunca iniciar el loop si la galería
-       no está visible.
-    */
 
     if (!galleryVisible) {
         return;
     }
 
-
-    /*
-       No crear múltiples requestAnimationFrame.
-    */
-
     if (galleryAnimationFrame) {
         return;
     }
 
-
     galleryLastTimestamp =
         performance.now();
-
 
     galleryAnimationFrame =
         requestAnimationFrame(
@@ -2018,14 +1908,10 @@ function detenerMovimientoAutomatico() {
 
 // =====================================================
 // MOVIMIENTO AUTOMÁTICO
+// SIN BUCLE
 // =====================================================
 
 function moverGaleria(timestamp) {
-
-    /*
-       Si dejó de ser visible, detener completamente
-       el loop.
-    */
 
     if (
         !gallery ||
@@ -2038,15 +1924,6 @@ function moverGaleria(timestamp) {
 
     }
 
-
-    /*
-       requestAnimationFrame puede ejecutarse a
-       diferentes frecuencias dependiendo del dispositivo.
-
-       Usamos deltaTime para mantener una velocidad
-       consistente en pantallas de 60 Hz, 90 Hz,
-       120 Hz, etc.
-    */
 
     if (!galleryLastTimestamp) {
 
@@ -2068,22 +1945,10 @@ function moverGaleria(timestamp) {
         timestamp;
 
 
-    /*
-       Solo mover si no existe interacción del usuario.
-    */
-
     if (
         !galleryPaused &&
         !galleryDragging
     ) {
-
-        /*
-           27 px/s aproximadamente.
-
-           Como queremos desplazar el contenido
-           visualmente hacia la derecha, reducimos
-           scrollLeft.
-        */
 
         const desplazamiento =
             (
@@ -2092,43 +1957,36 @@ function moverGaleria(timestamp) {
             ) / 1000;
 
 
-        gallery.scrollLeft -=
-            desplazamiento;
+        const maxScroll =
+            gallery.scrollWidth -
+            gallery.clientWidth;
+
+
+        gallery.scrollLeft =
+            Math.min(
+                gallery.scrollLeft +
+                desplazamiento,
+                Math.max(0, maxScroll)
+            );
 
 
         // =============================================
-        // BUCLE INFINITO
+        // LLEGAMOS AL FINAL
         // =============================================
-
-        /*
-           Cuando llegamos al principio de la primera
-           secuencia, saltamos al mismo punto de la
-           segunda secuencia.
-
-           Como ambas secuencias son idénticas,
-           visualmente no existe ningún salto.
-        */
-
-        const mitad =
-            obtenerMitadGaleria();
-
 
         if (
-            mitad > 0 &&
-            gallery.scrollLeft <= 0
+            maxScroll <= 0 ||
+            gallery.scrollLeft >= maxScroll
         ) {
 
-            gallery.scrollLeft +=
-                mitad;
+            detenerMovimientoAutomatico();
+
+            return;
 
         }
 
     }
 
-
-    /*
-       Programar solamente el siguiente frame.
-    */
 
     galleryAnimationFrame =
         requestAnimationFrame(
@@ -2146,7 +2004,6 @@ function pausarGaleria() {
 
     galleryPaused =
         true;
-
 
     if (galleryResumeTimeout) {
 
@@ -2176,7 +2033,6 @@ function reanudarGaleria() {
 
     }
 
-
     galleryResumeTimeout =
         setTimeout(
             () => {
@@ -2184,17 +2040,23 @@ function reanudarGaleria() {
                 galleryPaused =
                     false;
 
-                /*
-                   Si la galería sigue visible,
-                   aseguramos que el loop continúe.
-                */
-
                 if (
                     galleryVisible &&
                     !galleryReducedMotion
                 ) {
 
-                    iniciarMovimientoAutomatico();
+                    const maxScroll =
+                        gallery.scrollWidth -
+                        gallery.clientWidth;
+
+                    if (
+                        gallery.scrollLeft <
+                        maxScroll
+                    ) {
+
+                        iniciarMovimientoAutomatico();
+
+                    }
 
                 }
 
@@ -2284,12 +2146,6 @@ function configurarArrastreGaleria() {
                     true;
 
             }
-
-
-            /*
-               Mantener exactamente el comportamiento
-               manual que ya tenía tu galería.
-            */
 
             gallery.scrollLeft =
                 galleryStartScrollLeft -
@@ -2430,11 +2286,6 @@ function finalizarArrastre(
 
     reanudarGaleria();
 
-
-    /*
-       Evitar que el click inmediatamente posterior
-       al drag sea interpretado como selección.
-    */
 
     setTimeout(
         () => {
