@@ -1509,23 +1509,19 @@ document.addEventListener(
 
                     entradas.forEach(
                         (entrada) => {
-
-                            if (
-                                entrada.isIntersecting
+                            
+                            if (entrada.isIntersecting) {
+                                entrada.target.classList.add("visible");
+                                if (
+                                    entrada.target.classList.contains("harvest-section")
+                                ) {
+                                    observer.unobserve(entrada.target);
+                                }
+                            } else if (
+                                !entrada.target.classList.contains("harvest-section")
                             ) {
-
-                                entrada.target.classList.add(
-                                    "visible"
-                                );
-
-                            } else {
-
-                                entrada.target.classList.remove(
-                                    "visible"
-                                );
-
+                                entrada.target.classList.remove("visible");
                             }
-
                         }
                     );
 
