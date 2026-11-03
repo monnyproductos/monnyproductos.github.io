@@ -38,15 +38,15 @@ const fechaProximaCosecha =
 const productosConfig = {
 
     grandes: {
-        stock: 12
+        stock: 0
     },
 
     kilo: {
-        stock: 23
+        stock: 0
     },
 
     chicas: {
-        stock: 34
+        stock: 0
     }
 
 };
