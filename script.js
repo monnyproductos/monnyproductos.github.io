@@ -10,11 +10,6 @@ const INTERVALO_HERO = 5000;
 const VELOCIDAD_GALERIA = 27;
 const ESPERA_GALERIA = 2500;
 
-const fondosHero = [
-    "imagen/fotofondo1.webp",
-    "imagen/fotofondo2.webp"
-];
-
 const productos = [
     {
         id: 1,
