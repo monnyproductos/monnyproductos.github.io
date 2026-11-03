@@ -21,7 +21,7 @@ const productos = [
         nombre: "Caja Frutillas Grandes",
         descripcion: "Ideales para bañar en chocolate y preparación.",
         precio: 10000,
-        stock: 12,
+        stock: 0,
         imagen: "imagen/FrutillaGrande.webp",
         estado: "Disponible"
     },
@@ -30,7 +30,7 @@ const productos = [
         nombre: "Caja Frutillas Chicas",
         descripcion: "Sabor intenso y auténtico, ideales para preparar exquisitas mermeladas, jugos naturales y deliciosos postres",
         precio: 6000,
-        stock: 20,
+        stock: 0,
         imagen: "imagen/FrutillaChica.webp",
         estado: "Disponible"
     },
@@ -39,7 +39,7 @@ const productos = [
         nombre: "Bandeja 1 Kilo",
         descripcion: "Selección de frutillas grandes y medianas, frescas y llenas de sabor",
         precio: 3000,
-        stock: 5,
+        stock: 0,
         imagen: "imagen/frutillaKilo.webp",
         estado: "Disponible"
     }
