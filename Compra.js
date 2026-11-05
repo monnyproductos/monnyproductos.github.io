@@ -23,7 +23,7 @@ let mensajeWhatsAppPendiente = "";
 */
 
 const fechaProximaCosecha =
-    new Date("2026-08-24T08:00:00");
+    new Date("2026-11-06T08:00:00");
 
 
 /*
